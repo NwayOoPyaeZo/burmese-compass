@@ -5,9 +5,78 @@
 * Author: BootstrapMade.com
 * License: https://bootstrapmade.com/license/
 */
+// ---------- shared partial includes ----------
+(function () {
+  // Inject partials into placeholders
+  async function inject(name, file, after) {
+    const slot = document.querySelector(`[data-include="${name}"]`);
+    if (!slot) return;
+    try {
+      const res = await fetch(file + '?v=' + Date.now(), { cache: 'no-cache' });
+      if (!res.ok) throw new Error(`Failed to load ${file}`);
+      slot.innerHTML = await res.text();
+      if (typeof after === 'function') after(slot);
+    } catch (e) {
+      console.error(`Include ${name} failed:`, e);
+    }
+  }
+
+  // Init header behaviors (mobile toggle, dropdowns, active link)
+  function initHeader(root) {
+  const toggle = root.querySelector('.mobile-nav-toggle'); // the hamburger <i>
+  const navMenu = root.querySelector('.navmenu');          // the <nav>
+  const list = navMenu?.querySelector('ul');
+  if (!toggle || !navMenu || !list) return;
+
+  // Prevent double binding if header is injected again
+  if (toggle.dataset.bound === '1') return;
+  toggle.dataset.bound = '1';
+
+  // Hamburger toggle
+  toggle.addEventListener('click', (e) => {
+    e.stopPropagation();
+    document.body.classList.toggle('mobile-nav-active');
+    toggle.classList.toggle('bi-list');
+    toggle.classList.toggle('bi-x');
+    toggle.setAttribute(
+      'aria-expanded',
+      document.body.classList.contains('mobile-nav-active')
+    );
+  });
+
+  // Close menu when clicking outside
+  document.addEventListener('click', (e) => {
+    if (!document.body.classList.contains('mobile-nav-active')) return;
+    if (root.contains(e.target)) return; // ignore clicks inside header
+    document.body.classList.remove('mobile-nav-active');
+    toggle.classList.add('bi-list');
+    toggle.classList.remove('bi-x');
+  });
+
+  // Dropdown toggle on mobile
+  const dropdownLinks = root.querySelectorAll('.navmenu .dropdown > a');
+  dropdownLinks.forEach((link) => {
+    link.addEventListener('click', (ev) => {
+      if (window.innerWidth <= 1199) { // only mobile
+        ev.preventDefault();
+        const submenu = link.nextElementSibling;
+        submenu?.classList.toggle('dropdown-active');
+        link.classList.toggle('active');
+      }
+    });
+  });
+}
+
+
+  // Do the actual includes
+  inject('header', 'partials/navbar.html', initHeader);
+  inject('footer', 'partials/footer.html');
+})();
+
 
 (function() {
   "use strict";
+  
 
   /**
    * Apply .scrolled class to the body as the page is scrolled down
