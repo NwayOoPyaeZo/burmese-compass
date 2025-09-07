@@ -247,3 +247,177 @@
   });
 
 })();
+// --- Featured Tours catalog used by booking page ---
+const TOUR_CATALOG = {
+  'golden-rock': {
+    title: 'Golden Rock Pilgrimage & Bago Heritage',
+    slug: 'golden-rock',
+    durationDays: 2,
+    durationText: '2 Days',
+    location: 'Kyaiktiyo & Bago, Myanmar',
+    price: 199,
+    image: 'assets/img/travel/tours/tour_1.jpg'
+  },
+  'myeik-archipelago': {
+    title: 'Myeik Archipelago Island Cruise',
+    slug: 'myeik-archipelago',
+    durationDays: 5,
+    durationText: '5 Days',
+    location: 'Tanintharyi, Myanmar',
+    price: 899,
+    image: 'assets/img/travel/tours/tour_2.webp'
+  },
+  'kalaw-inle-trek': {
+    title: 'Kalaw to Inle Lake Trek',
+    slug: 'kalaw-inle-trek',
+    durationDays: 3,
+    durationText: '3 Days',
+    location: 'Shan State, Myanmar',
+    price: 349,
+    image: 'assets/img/travel/tours/tour_3.jpg'
+  },
+  'pindaya-caves': {
+    title: 'Pindaya Caves & Shan Hills Escape',
+    slug: 'pindaya-caves',
+    durationDays: 2,
+    durationText: '2 Days',
+    location: 'Shan State, Myanmar',
+    price: 279,
+    image: 'assets/img/travel/tours/tour_4.jpg'
+  },
+  'sagaing-ava-amarapura': {
+    title: 'Sagaing, Ava & Amarapura Day Tour',
+    slug: 'sagaing-ava-amarapura',
+    durationDays: 1,
+    durationText: '1 Day',
+    location: 'Mandalay Region, Myanmar',
+    price: 129,
+    image: 'assets/img/travel/tours/tour_5.jpg'
+  },
+  'myauk-u': {
+    title: 'Myauk U Ancient Kingdom Tour',
+    slug: 'myauk-u',
+    durationDays: 4,
+    durationText: '4 Days',
+    location: 'Rakhine State, Myanmar',
+    price: 599,
+    image: 'assets/img/travel/tours/tour_6.jpg'
+  }
+};
+
+// --- Booking page wiring ---
+(function initBookingPage() {
+  if (!document.body.classList.contains('booking-page')) return;
+
+  const params = new URLSearchParams(location.search);
+  const slug = params.get('tour');
+
+  const $ = (s, r=document) => r.querySelector(s);
+  const tourSelect = $('#tour-select');
+  const tourDuration = $('#tour-duration');
+  const depart = $('#departure-date');
+  const ret = $('#return-date');
+  const adults = $('#adults');
+  const children = $('#children');
+
+  // Sidebar targets
+  const sumImg = $('.selected-tour img');
+  const sumTitle = $('.selected-tour .tour-info h5');
+  const sumDuration = $('.selected-tour .tour-info p:nth-of-type(1)');
+  const sumLocation = $('.selected-tour .tour-info p:nth-of-type(2)');
+  const baseLine = [...document.querySelectorAll('.price-item .description')]
+    .find(el => /Base Price/i.test(el.textContent))?.parentElement;
+  const totalLine = $('.price-total .amount');
+
+  // Populate the select from your catalog
+  if (tourSelect) {
+    tourSelect.innerHTML = '<option value="">Select a tour...</option>' +
+      Object.values(TOUR_CATALOG)
+        .map(t => `<option value="${t.slug}">${t.title} - ${t.durationText}</option>`)
+        .join('');
+  }
+
+  function clearTour() {
+    
+    tourSelect && (tourSelect.value = '');
+    tourDuration && (tourDuration.value = '');
+    sumImg && (sumImg.src = 'assets/img/placeholder.jpg');
+    sumTitle && (sumTitle.textContent = '—');
+    sumDuration && (sumDuration.innerHTML = '<i class="bi bi-calendar"></i> —');
+    sumLocation && (sumLocation.innerHTML = '<i class="bi bi-geo-alt"></i> —');
+    if (baseLine) {
+      baseLine.querySelector('.description').textContent = 'Base Price (Select tour)';
+      baseLine.querySelector('.amount').textContent = '$0';
+    }
+    totalLine && (totalLine.textContent = '$0');
+    ret && (ret.value = '');
+    const img = document.getElementById('summary-img');
+  if (img) {
+    img.src = '';
+    img.classList.add('d-none');
+  }
+  }
+
+  function pickTour(sl) {
+
+    const t = TOUR_CATALOG[sl];
+  if (!t) return clearTour();
+
+  const img = document.getElementById('summary-img');
+  if (img) {
+    img.src = t.image;
+    img.classList.remove('d-none');
+  }
+    // reflect selection
+    if (tourSelect) tourSelect.value = t.slug;
+    if (tourDuration) tourDuration.value = t.durationText;
+
+    // auto-return date if departure chosen
+    if (depart?.value) {
+      const d = new Date(depart.value);
+      if (!Number.isNaN(d.getTime())) {
+        const back = new Date(d);
+        back.setDate(back.getDate() + t.durationDays - 1);
+        ret.value = back.toISOString().slice(0,10);
+      }
+    }
+
+    // sidebar
+    sumImg && (sumImg.src = t.image);
+    sumTitle && (sumTitle.textContent = t.title);
+    sumDuration && (sumDuration.innerHTML = `<i class="bi bi-calendar"></i> ${t.durationText}`);
+    sumLocation && (sumLocation.innerHTML = `<i class="bi bi-geo-alt"></i> ${t.location}`);
+
+    // pricing
+    const a = parseInt(adults?.value || '1', 10) || 1;
+    const c = parseInt(children?.value || '0', 10) || 0;
+    const base = a * t.price + Math.round(c * t.price * 0.7);
+    if (baseLine) {
+      baseLine.querySelector('.description').textContent =
+        `Base Price (${a} Adult${a>1?'s':''}${c?`, ${c} Child${c>1?'ren':''}`:''})`;
+      baseLine.querySelector('.amount').textContent = `$${base.toLocaleString()}`;
+    }
+    const addOns = [...document.querySelectorAll('.price-item:not(.tax-item) .amount')]
+      .filter(el => el !== baseLine?.querySelector('.amount'))
+      .map(el => Number(el.textContent.replace(/[^0-9.]/g,'')) || 0);
+    const taxes = Number($('.price-item.tax-item .amount')?.textContent.replace(/[^0-9.]/g,'') || 0);
+    const total = base + addOns.reduce((s,n)=>s+n,0) + taxes;
+    totalLine && (totalLine.textContent = `$${total.toLocaleString()}`);
+    
+  
+  }
+
+  // Events
+  tourSelect?.addEventListener('change', e => pickTour(e.target.value));
+  [adults, children, depart].forEach(ctrl => {
+    ctrl?.addEventListener('change', () => {
+      const current = tourSelect?.value;
+      if (current) pickTour(current);
+    });
+  });
+
+  // Entry point: only prefill if URL has a valid slug
+  if (slug && TOUR_CATALOG[slug]) pickTour(slug);
+  else clearTour();
+})();
+

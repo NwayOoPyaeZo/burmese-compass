@@ -93,19 +93,15 @@
                     <div class="row gy-4">
                       <div class="col-md-6">
                         <label for="tour-select">Choose Tour Package</label>
-                        <select name="tour_package" id="tour-select" class="form-select" required="">
+                        <select name="tour_package" id="tour-select" class="form-select" required>
                           <option value="">Select a tour...</option>
-                          <option value="amazing-bali-adventure">Amazing Bali Adventure - 7 Days</option>
-                          <option value="thailand-explorer">Thailand Explorer - 10 Days</option>
-                          <option value="vietnam-highlights">Vietnam Highlights - 8 Days</option>
-                          <option value="cambodia-discovery">Cambodia Discovery - 6 Days</option>
                         </select>
                       </div>
 
                       <div class="col-md-6">
                         <label for="tour-duration">Duration</label>
                         <input type="text" name="tour_duration" id="tour-duration" class="form-control"
-                          value="7 Days / 6 Nights" readonly="">
+                          value="" readonly>
                       </div>
 
                       <div class="col-md-6">
@@ -377,13 +373,31 @@
               </div>
 
               <div class="selected-tour">
-                <img src="assets/img/travel/tour-15.webp" alt="Selected Tour" class="img-fluid">
-                <div class="tour-info">
-                  <h5>Amazing Bali Adventure</h5>
-                  <p><i class="bi bi-calendar"></i> 7 Days / 6 Nights</p>
-                  <p><i class="bi bi-geo-alt"></i> Bali, Indonesia</p>
-                </div>
-              </div>
+  <img src="" alt="Selected Tour" class="img-fluid d-none" id="summary-img">
+  <div class="tour-info">
+    <h5>—</h5>
+    <p><i class="bi bi-calendar"></i> —</p>
+    <p><i class="bi bi-geo-alt"></i> —</p>
+  </div>
+</div>
+
+
+<div class="price-breakdown">
+  <div class="price-item">
+    <span class="description">Base Price (Select tour)</span>
+    <span class="amount">$0</span>
+  </div>
+  <!-- keep the other items if you want, but set their amounts to $0 for a clean start -->
+  <div class="price-item tax-item">
+    <span class="description">Taxes &amp; Fees</span>
+    <span class="amount">$0</span>
+  </div>
+  <div class="price-total">
+    <span class="description">Total Amount</span>
+    <span class="amount">$0</span>
+  </div>
+</div>
+
 
               <div class="booking-details">
                 <div class="detail-item">
