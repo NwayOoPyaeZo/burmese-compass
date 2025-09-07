@@ -23,55 +23,81 @@
 
   // Init header behaviors (mobile toggle, dropdowns, active link)
   function initHeader(root) {
-  const toggle = root.querySelector('.mobile-nav-toggle'); // the hamburger <i>
-  const navMenu = root.querySelector('.navmenu');          // the <nav>
-  const list = navMenu?.querySelector('ul');
-  if (!toggle || !navMenu || !list) return;
+    const toggle = root.querySelector('.mobile-nav-toggle'); // the hamburger <i>
+    const navMenu = root.querySelector('.navmenu');          // the <nav>
+    const list = navMenu?.querySelector('ul');
+    if (!toggle || !navMenu || !list) return;
 
-  // Prevent double binding if header is injected again
-  if (toggle.dataset.bound === '1') return;
-  toggle.dataset.bound = '1';
+    // Prevent double binding if header is injected again
+    if (toggle.dataset.bound === '1') return;
+    toggle.dataset.bound = '1';
 
-  // Hamburger toggle
-  toggle.addEventListener('click', (e) => {
-    e.stopPropagation();
-    document.body.classList.toggle('mobile-nav-active');
-    toggle.classList.toggle('bi-list');
-    toggle.classList.toggle('bi-x');
-    toggle.setAttribute(
-      'aria-expanded',
-      document.body.classList.contains('mobile-nav-active')
-    );
-  });
-
-  // Close menu when clicking outside
-  document.addEventListener('click', (e) => {
-    if (!document.body.classList.contains('mobile-nav-active')) return;
-    if (root.contains(e.target)) return; // ignore clicks inside header
-    document.body.classList.remove('mobile-nav-active');
-    toggle.classList.add('bi-list');
-    toggle.classList.remove('bi-x');
-  });
-
-  // Dropdown toggle on mobile
-  const dropdownLinks = root.querySelectorAll('.navmenu .dropdown > a');
-  dropdownLinks.forEach((link) => {
-    link.addEventListener('click', (ev) => {
-      if (window.innerWidth <= 1199) { // only mobile
-        ev.preventDefault();
-        const submenu = link.nextElementSibling;
-        submenu?.classList.toggle('dropdown-active');
-        link.classList.toggle('active');
-      }
+    // Hamburger toggle
+    toggle.addEventListener('click', (e) => {
+      e.stopPropagation();
+      document.body.classList.toggle('mobile-nav-active');
+      toggle.classList.toggle('bi-list');
+      toggle.classList.toggle('bi-x');
+      toggle.setAttribute(
+        'aria-expanded',
+        document.body.classList.contains('mobile-nav-active')
+      );
     });
-  });
-}
 
+    // Close menu when clicking outside
+    document.addEventListener('click', (e) => {
+      if (!document.body.classList.contains('mobile-nav-active')) return;
+      if (root.contains(e.target)) return; // ignore clicks inside header
+      document.body.classList.remove('mobile-nav-active');
+      toggle.classList.add('bi-list');
+      toggle.classList.remove('bi-x');
+    });
+
+    // Dropdown toggle on mobile
+    const dropdownLinks = root.querySelectorAll('.navmenu .dropdown > a');
+    dropdownLinks.forEach((link) => {
+      link.addEventListener('click', (ev) => {
+        if (window.innerWidth <= 1199) { // only mobile
+          ev.preventDefault();
+          const submenu = link.nextElementSibling; // the <ul>
+          submenu?.classList.toggle('dropdown-active');
+          link.classList.toggle('active');
+        }
+      });
+    });
+
+    // --- Active link highlight ---
+    // Remove any hardcoded 'active'
+    root.querySelectorAll('#navmenu a.active').forEach(a => a.classList.remove('active'));
+    // Determine current file name (default to index.html)
+    const here = location.pathname.split('/').pop() || 'index.html';
+
+    // Map detail pages to their main section
+    function normalize(file) {
+      if (/^destination/i.test(file)) return 'destinations.html';
+      if (/^tour/i.test(file))        return 'tours.html';
+      if (/^blog/i.test(file))        return 'blog.html';
+      if (/^faq/i.test(file))         return 'faq.html';
+      if (/^privacy/i.test(file))     return 'privacy.html';
+      if (/^terms/i.test(file))       return 'terms.html';
+      return file || 'index.html';
+    }
+    const target = normalize(here);
+
+    const match = root.querySelector(`#navmenu a[href$="${target}"]`);
+    if (match) {
+      match.classList.add('active');
+      // if inside dropdown, also highlight the parent link
+      const parentTop = match.closest('.dropdown')?.querySelector(':scope > a');
+      parentTop && parentTop.classList.add('active');
+    }
+  }
 
   // Do the actual includes
   inject('header', 'partials/navbar.html', initHeader);
   inject('footer', 'partials/footer.html');
 })();
+
 
 
 (function() {
