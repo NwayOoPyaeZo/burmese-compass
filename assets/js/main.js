@@ -447,3 +447,124 @@ const TOUR_CATALOG = {
   else clearTour();
 })();
 
+// ---------- Destination Details Loader ----------
+const DEST_CATALOG = {
+  'bagan': {
+    title: 'Bagan, Myanmar',
+    tagline: 'Temples on an endless plain',
+    region: 'Mandalay Region',
+    hero: 'assets/img/travel/destination/destination-2.jpeg',
+    overview: `A vast plain with 2,000+ ancient temples. Sunrise balloons,
+               e-bikes through dusty lanes, and gold that looks illegal at dawn.`,
+  },
+  'inle-lake': {
+    title: 'Inle Lake, Myanmar',
+    tagline: 'Floating gardens and leg-rowers',
+    region: 'Shan State',
+    hero: 'assets/img/travel/destination/destination-4.jpeg',
+    overview: `Stilt villages, craft workshops, mirror-still water, and the famous fishermen.`,
+  },
+  'ngapali-beach': {
+    title: 'Ngapali Beach, Myanmar',
+    tagline: 'Palm-lined coast and quiet coves',
+    region: 'Rakhine State',
+    hero: 'assets/img/travel/destination/destination-6.jpeg',
+    overview: `Seafood, sunsets, and a medically necessary amount of relaxation.`,
+  },
+  'shwedagon': {
+    title: 'Shwedagon Pagoda, Myanmar',
+    tagline: 'The country’s most sacred stupa',
+    region: 'Yangon',
+    hero: 'assets/img/travel/destination/destination-8.jpeg',
+    overview: `A golden hilltop complex that glows at dusk and hums with devotion.`,
+  },
+   'hpa-an': {
+    title: 'Hpa-An, Myanmar',
+    tagline: 'Karst peaks, caves, and rice fields',
+    region: 'Kayin State',
+    hero: 'assets/img/travel/destination/destination-10.jpeg',
+    overview: 'A tranquil town surrounded by dramatic limestone cliffs, sacred caves, and lush rice fields.',
+    gallery: ['assets/img/travel/destination/destination-10.jpeg']
+  },
+  'mrauk-u': {
+    title: 'Mrauk U, Myanmar',
+    tagline: 'Misty temples and ancient ruins',
+    region: 'Rakhine State',
+    hero: 'assets/img/travel/destination/destination-12.jpeg',
+    overview: 'A hidden archaeological gem with misty temples and ancient ruins, less crowded than Bagan.',
+    gallery: ['assets/img/travel/destination/destination-12.jpeg']
+  },
+  'pyin-oo-lwin': {
+    title: 'Pyin Oo Lwin, Myanmar',
+    tagline: 'Cool hills and gardens',
+    region: 'Mandalay Region',
+    hero: 'assets/img/travel/destination/destination-14.jpeg',
+    overview: 'A colonial-era hill town with botanical gardens, waterfalls, and strawberry farms.',
+    gallery: ['assets/img/travel/destination/destination-14.jpeg']
+  },
+  'mount-popa': {
+    title: 'Mount Popa, Myanmar',
+    tagline: 'Volcanic peak and nat shrines',
+    region: 'Mandalay Region',
+    hero: 'assets/img/travel/destination/destination-16.jpeg',
+    overview: 'A sacred volcanic peak crowned with monasteries and panoramic views near Bagan.',
+    gallery: ['assets/img/travel/destination/destination-16.jpeg']
+  },
+  'golden-rock': {
+    title: 'Golden Rock, Myanmar',
+    tagline: 'Gravity-defying pilgrimage',
+    region: 'Mon State',
+    hero: 'assets/img/travel/destination/destination-18.jpeg',
+    overview: 'A golden boulder perched on a cliff, one of Myanmar’s most revered pilgrimage sites.',
+    gallery: ['assets/img/travel/destination/destination-18.jpeg']
+  },
+  'mandalay': {
+    title: 'Mandalay, Myanmar',
+    tagline: 'Cultural heart of Myanmar',
+    region: 'Mandalay Region',
+    hero: 'assets/img/travel/destination/destination-20.jpeg',
+    overview: 'Royal palaces, monasteries, and sunset views at U Bein Bridge.',
+    gallery: ['assets/img/travel/destination/destination-20.jpeg']
+  }
+};
+
+(function initDestinationDetails() {
+  if (!document.body.classList.contains('destination-details-page')) return;
+
+  const params = new URLSearchParams(location.search);
+  const slug = params.get('dest');
+
+  // Elements we’ll update
+  const heroImg = document.querySelector('.destination-hero .hero-image img');
+  const heroTitle = document.querySelector('.destination-hero .hero-content h1');
+  const heroTag = document.querySelector('.destination-hero .hero-content .hero-tagline');
+  const pageTitle = document.querySelector('.page-title h1');
+  const crumbCurrent = document.querySelector('.breadcrumbs .current');
+  const overviewH2 = document.querySelector('.destination-overview h2');
+  const overviewP  = document.querySelector('.destination-overview p');
+
+  function render(t) {
+    // hero
+    if (heroImg) heroImg.src = t.hero;
+    if (heroTitle) heroTitle.textContent = t.title;
+    if (heroTag) heroTag.textContent = t.tagline;
+
+    // title + breadcrumbs
+    if (pageTitle) pageTitle.textContent = 'Destination: ' + t.title;
+    if (crumbCurrent) crumbCurrent.textContent = t.title;
+
+    // overview
+    if (overviewH2) overviewH2.textContent = 'Discover ' + t.title.split(',')[0];
+    if (overviewP)  overviewP.textContent  = t.overview;
+  }
+
+  if (slug && DEST_CATALOG[slug]) {
+    render(DEST_CATALOG[slug]);
+  } else {
+    // No slug or unknown slug: go back to the grid, or show a neutral state
+    // location.href = 'destinations.html';
+    // Or neutralize the Santorini filler:
+    if (heroTitle) heroTitle.textContent = 'Choose a Destination';
+    if (heroTag) heroTag.textContent = '';
+  }
+})();
