@@ -486,8 +486,8 @@ const DEST_CATALOG = {
     overview: 'A tranquil town surrounded by dramatic limestone cliffs, sacred caves, and lush rice fields.',
     gallery: ['assets/img/travel/destination/destination-10.jpeg']
   },
-  'mrauk-u': {
-    title: 'Mrauk U, Myanmar',
+  'myauk-u': {
+    title: 'Myauk U, Myanmar',
     tagline: 'Misty temples and ancient ruins',
     region: 'Rakhine State',
     hero: 'assets/img/travel/destination/destination-12.jpeg',
