@@ -894,7 +894,7 @@ section,
 }
 
 .travel-hero .booking-form-wrapper .booking-form {
-  background-color: var(--surface-color);
+  background-color: rgba(0, 0, 0, 0.4);
   border-radius: 15px;
   padding: 2rem;
   box-shadow: 0 10px 30px color-mix(in srgb, var(--default-color), transparent 85%);
