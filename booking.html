@@ -367,89 +367,79 @@
 
           <!-- Booking Summary Sidebar -->
           <div class="col-lg-4">
-            <div class="booking-summary" data-aos="fade-up" data-aos-delay="400">
-              <div class="summary-header">
-                <h4>Booking Summary</h4>
-              </div>
+  <div class="booking-summary" data-aos="fade-up" data-aos-delay="400">
+    <div class="summary-header">
+      <h4>Booking Summary</h4>
+    </div>
 
-              <div class="selected-tour">
-  <img src="" alt="Selected Tour" class="img-fluid d-none" id="summary-img">
-  <div class="tour-info">
-    <h5>—</h5>
-    <p><i class="bi bi-calendar"></i> —</p>
-    <p><i class="bi bi-geo-alt"></i> —</p>
+    <!-- Selected Tour -->
+    <div class="selected-tour">
+      <img src="" alt="Selected Tour" class="img-fluid d-none" id="summary-img">
+      <div class="tour-info">
+        <h5 id="sum-title">—</h5>
+        <p id="sum-duration"><i class="bi bi-calendar"></i> —</p>
+        <p id="sum-location"><i class="bi bi-geo-alt"></i> —</p>
+      </div>
+    </div>
+
+    <!-- Live booking details -->
+    <div class="booking-details">
+      <div class="detail-item">
+        <span class="label">Departure:</span>
+        <span class="value" id="sum-depart">Select dates</span>
+      </div>
+      <div class="detail-item">
+        <span class="label">Travelers:</span>
+        <span class="value" id="sum-travelers">1 Adult</span>
+      </div>
+      <div class="detail-item">
+        <span class="label">Duration:</span>
+        <span class="value" id="sum-trip-length">—</span>
+      </div>
+    </div>
+
+    <!-- Single price breakdown -->
+    <div class="price-breakdown" id="breakdown">
+      <div class="price-item" id="base-line">
+        <span class="description" id="base-desc">Base Price (Select tour)</span>
+        <span class="amount" id="base-amount">$0</span>
+      </div>
+
+      <!-- Optional add-ons the user can toggle; leave or remove as you like -->
+      <div class="price-item addon" data-addon="insurance">
+        <span class="description">Travel Insurance</span>
+        <span class="amount">$0</span>
+      </div>
+      <div class="price-item addon" data-addon="transfer">
+        <span class="description">Airport Transfer</span>
+        <span class="amount">$0</span>
+      </div>
+
+      <div class="price-item tax-item">
+        <span class="description">Taxes &amp; Fees</span>
+        <span class="amount" id="tax-amount">$0</span>
+      </div>
+
+      <div class="price-total">
+        <span class="description">Total Amount</span>
+        <span class="amount" id="total-amount">$0</span>
+      </div>
+    </div>
+
+    <div class="help-section">
+      <h5>Need Help?</h5>
+      <p>Our travel experts are here to assist you</p>
+      <div class="contact-info">
+        <p><i class="bi bi-telephone"></i> +1 (555) 123-4567</p>
+        <p><i class="bi bi-envelope"></i> support@example.com</p>
+      </div>
+      <div class="support-hours">
+        <small>Available 24/7</small>
+      </div>
+    </div>
   </div>
 </div>
 
-
-<div class="price-breakdown">
-  <div class="price-item">
-    <span class="description">Base Price (Select tour)</span>
-    <span class="amount">$0</span>
-  </div>
-  <!-- keep the other items if you want, but set their amounts to $0 for a clean start -->
-  <div class="price-item tax-item">
-    <span class="description">Taxes &amp; Fees</span>
-    <span class="amount">$0</span>
-  </div>
-  <div class="price-total">
-    <span class="description">Total Amount</span>
-    <span class="amount">$0</span>
-  </div>
-</div>
-
-
-              <div class="booking-details">
-                <div class="detail-item">
-                  <span class="label">Departure:</span>
-                  <span class="value">Select dates</span>
-                </div>
-                <div class="detail-item">
-                  <span class="label">Travelers:</span>
-                  <span class="value">2 Adults</span>
-                </div>
-                <div class="detail-item">
-                  <span class="label">Duration:</span>
-                  <span class="value">7 Days</span>
-                </div>
-              </div>
-
-              <div class="price-breakdown">
-                <div class="price-item">
-                  <span class="description">Base Price (2 Adults)</span>
-                  <span class="amount">$1,899</span>
-                </div>
-                <div class="price-item">
-                  <span class="description">Travel Insurance</span>
-                  <span class="amount">$178</span>
-                </div>
-                <div class="price-item">
-                  <span class="description">Airport Transfer</span>
-                  <span class="amount">$90</span>
-                </div>
-                <div class="price-item tax-item">
-                  <span class="description">Taxes &amp; Fees</span>
-                  <span class="amount">$156</span>
-                </div>
-                <div class="price-total">
-                  <span class="description">Total Amount</span>
-                  <span class="amount">$2,323</span>
-                </div>
-              </div>
-
-              <div class="help-section">
-                <h5>Need Help?</h5>
-                <p>Our travel experts are here to assist you</p>
-                <div class="contact-info">
-                  <p><i class="bi bi-telephone"></i> +1 (555) 123-4567</p>
-                  <p><i class="bi bi-envelope"></i> support@example.com</p>
-                </div>
-                <div class="support-hours">
-                  <small>Available 24/7</small>
-                </div>
-              </div>
-            </div>
-          </div>
         </div>
 
       </div>
