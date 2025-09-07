@@ -41,14 +41,13 @@
     <div class="page-title dark-background page-404" data-aos="fade">
       <div class="container position-relative">
         <h1>404</h1>
-        <p>Esse dolorum voluptatum ullam est sint nemo et est ipsa porro placeat quibusdam quia assumenda numquam
-          molestias.</p>
-        <nav class="breadcrumbs">
+        <p>Page not found.</p>
+        <!-- <nav class="breadcrumbs">
           <ol>
             <li><a href="index.html">Home</a></li>
             <li class="current">404</li>
           </ol>
-        </nav>
+        </nav> -->
       </div>
     </div><!-- End Page Title -->
 
@@ -91,7 +90,12 @@
                   <ul>
                     <li><a href="#"><i class="bi bi-arrow-right-circle"></i> Check our sitemap</a></li>
                     <li><a href="#"><i class="bi bi-arrow-right-circle"></i> Contact support</a></li>
-                    <li><a href="#"><i class="bi bi-arrow-right-circle"></i> Return to previous page</a></li>
+                    <li>
+  <a href="index.html" onclick="if(history.length > 1){ history.back(); return false; }">
+    <i class="bi bi-arrow-right-circle"></i> Return to previous page
+  </a>
+</li>
+
                   </ul>
                 </div>
               </div>
