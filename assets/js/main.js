@@ -1,11 +1,4 @@
-/**
-* Template Name: Tour
-* Template URL: https://bootstrapmade.com/tour-bootstrap-travel-website-template/
-* Updated: Jul 01 2025 with Bootstrap v5.3.7
-* Author: BootstrapMade.com
-* License: https://bootstrapmade.com/license/
-*/
-// ---------- shared partial includes ----------
+
 (function () {
   // Inject partials into placeholders
   async function inject(name, file, after) {
@@ -75,11 +68,11 @@
     // Map detail pages to their main section
     function normalize(file) {
       if (/^destination/i.test(file)) return 'destinations.html';
-      if (/^tour/i.test(file))        return 'tours.html';
-      if (/^blog/i.test(file))        return 'blog.html';
-      if (/^faq/i.test(file))         return 'faq.html';
-      if (/^privacy/i.test(file))     return 'privacy.html';
-      if (/^terms/i.test(file))       return 'terms.html';
+      if (/^tour/i.test(file)) return 'tours.html';
+      if (/^blog/i.test(file)) return 'blog.html';
+      if (/^faq/i.test(file)) return 'faq.html';
+      if (/^privacy/i.test(file)) return 'privacy.html';
+      if (/^terms/i.test(file)) return 'terms.html';
       return file || 'index.html';
     }
     const target = normalize(here);
@@ -100,9 +93,9 @@
 
 
 
-(function() {
+(function () {
   "use strict";
-  
+
 
   /**
    * Apply .scrolled class to the body as the page is scrolled down
@@ -147,7 +140,7 @@
    * Toggle mobile nav dropdowns
    */
   document.querySelectorAll('.navmenu .toggle-dropdown').forEach(navmenu => {
-    navmenu.addEventListener('click', function(e) {
+    navmenu.addEventListener('click', function (e) {
       e.preventDefault();
       this.parentNode.classList.toggle('active');
       this.parentNode.nextElementSibling.classList.toggle('dropdown-active');
@@ -208,7 +201,7 @@
    * Init swiper sliders
    */
   function initSwiper() {
-    document.querySelectorAll(".init-swiper").forEach(function(swiperElement) {
+    document.querySelectorAll(".init-swiper").forEach(function (swiperElement) {
       let config = JSON.parse(
         swiperElement.querySelector(".swiper-config").innerHTML.trim()
       );
@@ -233,13 +226,13 @@
   /**
    * Init isotope layout and filters
    */
-  document.querySelectorAll('.isotope-layout').forEach(function(isotopeItem) {
+  document.querySelectorAll('.isotope-layout').forEach(function (isotopeItem) {
     let layout = isotopeItem.getAttribute('data-layout') ?? 'masonry';
     let filter = isotopeItem.getAttribute('data-default-filter') ?? '*';
     let sort = isotopeItem.getAttribute('data-sort') ?? 'original-order';
 
     let initIsotope;
-    imagesLoaded(isotopeItem.querySelector('.isotope-container'), function() {
+    imagesLoaded(isotopeItem.querySelector('.isotope-container'), function () {
       initIsotope = new Isotope(isotopeItem.querySelector('.isotope-container'), {
         itemSelector: '.isotope-item',
         layoutMode: layout,
@@ -248,8 +241,8 @@
       });
     });
 
-    isotopeItem.querySelectorAll('.isotope-filters li').forEach(function(filters) {
-      filters.addEventListener('click', function() {
+    isotopeItem.querySelectorAll('.isotope-filters li').forEach(function (filters) {
+      filters.addEventListener('click', function () {
         isotopeItem.querySelector('.isotope-filters .filter-active').classList.remove('filter-active');
         this.classList.add('filter-active');
         initIsotope.arrange({
@@ -338,7 +331,7 @@ const TOUR_CATALOG = {
   const params = new URLSearchParams(location.search);
   const slug = params.get('tour');
 
-  const $ = (s, r=document) => r.querySelector(s);
+  const $ = (s, r = document) => r.querySelector(s);
   const tourSelect = $('#tour-select');
   const tourDuration = $('#tour-duration');
   const depart = $('#departure-date');
@@ -364,7 +357,7 @@ const TOUR_CATALOG = {
   }
 
   function clearTour() {
-    
+
     tourSelect && (tourSelect.value = '');
     tourDuration && (tourDuration.value = '');
     sumImg && (sumImg.src = 'assets/img/placeholder.jpg');
@@ -378,22 +371,22 @@ const TOUR_CATALOG = {
     totalLine && (totalLine.textContent = '$0');
     ret && (ret.value = '');
     const img = document.getElementById('summary-img');
-  if (img) {
-    img.src = '';
-    img.classList.add('d-none');
-  }
+    if (img) {
+      img.src = '';
+      img.classList.add('d-none');
+    }
   }
 
   function pickTour(sl) {
 
     const t = TOUR_CATALOG[sl];
-  if (!t) return clearTour();
+    if (!t) return clearTour();
 
-  const img = document.getElementById('summary-img');
-  if (img) {
-    img.src = t.image;
-    img.classList.remove('d-none');
-  }
+    const img = document.getElementById('summary-img');
+    if (img) {
+      img.src = t.image;
+      img.classList.remove('d-none');
+    }
     // reflect selection
     if (tourSelect) tourSelect.value = t.slug;
     if (tourDuration) tourDuration.value = t.durationText;
@@ -404,7 +397,7 @@ const TOUR_CATALOG = {
       if (!Number.isNaN(d.getTime())) {
         const back = new Date(d);
         back.setDate(back.getDate() + t.durationDays - 1);
-        ret.value = back.toISOString().slice(0,10);
+        ret.value = back.toISOString().slice(0, 10);
       }
     }
 
@@ -420,17 +413,17 @@ const TOUR_CATALOG = {
     const base = a * t.price + Math.round(c * t.price * 0.7);
     if (baseLine) {
       baseLine.querySelector('.description').textContent =
-        `Base Price (${a} Adult${a>1?'s':''}${c?`, ${c} Child${c>1?'ren':''}`:''})`;
+        `Base Price (${a} Adult${a > 1 ? 's' : ''}${c ? `, ${c} Child${c > 1 ? 'ren' : ''}` : ''})`;
       baseLine.querySelector('.amount').textContent = `$${base.toLocaleString()}`;
     }
     const addOns = [...document.querySelectorAll('.price-item:not(.tax-item) .amount')]
       .filter(el => el !== baseLine?.querySelector('.amount'))
-      .map(el => Number(el.textContent.replace(/[^0-9.]/g,'')) || 0);
-    const taxes = Number($('.price-item.tax-item .amount')?.textContent.replace(/[^0-9.]/g,'') || 0);
-    const total = base + addOns.reduce((s,n)=>s+n,0) + taxes;
+      .map(el => Number(el.textContent.replace(/[^0-9.]/g, '')) || 0);
+    const taxes = Number($('.price-item.tax-item .amount')?.textContent.replace(/[^0-9.]/g, '') || 0);
+    const total = base + addOns.reduce((s, n) => s + n, 0) + taxes;
     totalLine && (totalLine.textContent = `$${total.toLocaleString()}`);
-    
-  
+
+
   }
 
   // Events
@@ -478,7 +471,7 @@ const DEST_CATALOG = {
     hero: 'assets/img/travel/destination/destination-8.jpeg',
     overview: `A golden hilltop complex that glows at dusk and hums with devotion.`,
   },
-   'hpa-an': {
+  'hpa-an': {
     title: 'Hpa-An, Myanmar',
     tagline: 'Karst peaks, caves, and rice fields',
     region: 'Kayin State',
@@ -541,7 +534,7 @@ const DEST_CATALOG = {
   const pageTitle = document.querySelector('.page-title h1');
   const crumbCurrent = document.querySelector('.breadcrumbs .current');
   const overviewH2 = document.querySelector('.destination-overview h2');
-  const overviewP  = document.querySelector('.destination-overview p');
+  const overviewP = document.querySelector('.destination-overview p');
 
   function render(t) {
     // hero
@@ -555,7 +548,7 @@ const DEST_CATALOG = {
 
     // overview
     if (overviewH2) overviewH2.textContent = 'Discover ' + t.title.split(',')[0];
-    if (overviewP)  overviewP.textContent  = t.overview;
+    if (overviewP) overviewP.textContent = t.overview;
   }
 
   if (slug && DEST_CATALOG[slug]) {
